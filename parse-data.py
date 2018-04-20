@@ -55,7 +55,7 @@ for o in root.iter('Connection'):
         nodes[currentNodeString] = node()
         nodes[currentNodeString].origin = currentNodeString
         nodes[currentNodeString].destination = str(destination.get('ToolID'))
-        annotation = root.findall(".//Node/[@ToolID='1']/Properties/Annotation/DefaultAnnotationText")
+        annotation = root.findall(".//Node/[@ToolID='"+currentNodeString+"']/Properties/Annotation/DefaultAnnotationText")
         nodes[currentNodeString].annotation = annotation[0].text
         nodesDone.append(currentNodeString)
 
