@@ -64,5 +64,8 @@ for o in root.iter('Connection'):
 
 for n, v in nodes.items():
     print("ORIGIN NODE: "+v.origin)
-    #print("ANNOTATION: "+str(v.annotation[:50]))
+    try:
+        print("ANNOTATION: "+str(v.annotation[:50]))
+    except:
+        pass
     print("\tDESTINATION NODES: "+v.destination)
