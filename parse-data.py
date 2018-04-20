@@ -14,7 +14,7 @@ root = tree.getroot()
 #conDest = root.findall(".//*Connection/Destination")
 #cons = root.findall(".//Connections/Connection")
 
-nodesDone = []
+
 '''
 node = {}
 for o in root.iter('Connection'):
@@ -40,25 +40,41 @@ class node:
     origin = ""
     destination = ""
     annotation = ""
-
-nodes = {}
-for o in root.iter('Connection'):
-    con = list(o)
-    origin=con[0]
-    destination=con[1]
-    currentNodeString = str(origin.get('ToolID'))
-    if currentNodeString in nodesDone:
-        #amend existing node
-        nodes[currentNodeString].destination += ", " +str(destination.get('ToolID'))
-    else:
+    
+class nodeParser:
+    nodes = {}
+    nodesDone = []
+    def processData(self):
+        for o in root.iter('Connection'):
+            self.parseConnection(o)
+    def parseConnection(self,o):
+        con = list(o)
+        origin=str(con[0].get('ToolID'))
+        destination=str(con[1].get('ToolID'))
+        currentNodeString = str(origin.get('ToolID'))
+        
+        self.paseNode()
+        if currentNodeString in self.nodesDone:
+            self.updateNode()
+        else:
+            self.newNode()
+        
+    def parseNode(self, 
+        
+    def newNode(self):
         #build new node
-        nodes[currentNodeString] = node()
-        nodes[currentNodeString].origin = currentNodeString
-        nodes[currentNodeString].destination = str(destination.get('ToolID'))
+        self.nodes[currentNodeString] = node()
+        self.nodes[currentNodeString].origin = currentNodeString
+        self.nodes[currentNodeString].destination = destination
         annotation = root.findall(".//Node/[@ToolID='1']/Properties/Annotation/DefaultAnnotationText")
-        nodes[currentNodeString].annotation = annotation[0].text
-        nodesDone.append(currentNodeString)
+        self.nodes[currentNodeString].annotation = annotation[0].text
+        self.nodesDone.append(currentNodeString)
+    def updateNode(self):
+        #amend existing node
+        self.nodes[currentNodeString].destination += ", " + destination
 
+
+    
 #print(nodesDone)
 
 
